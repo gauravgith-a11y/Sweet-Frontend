@@ -19,37 +19,24 @@ const Categories = () => {
   const [isLoading, setIsLoading] = useState(true);
   const searchQuery = searchParams.get("search") || "";
 
-  // useEffect(() => {
-  //   loadData();
-  // }, []);
-
-  // const loadData = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     // Replace these with actual API calls when backend is ready
-  //     const [productsData, categoriesData] = await Promise.all([
-  //       fetchProducts(),
-  //       fetchCategories()
-  //     ]);
-  //     setProducts(productsData);
-  //     setCategories(categoriesData);
-  //   } catch (error) {
-  //     console.error("Failed to load products");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
+ 
 
   useEffect(() => {
       const loadData = async () => {
         setIsLoading(true);
         try {
           console.log("Fetching categories and products...");
+          // const [catRes, prodRes] = await Promise.all([
+          //   axios.get("http://127.0.0.1:8000/api/category"),
+          //   axios.get("http://127.0.0.1:8000/api/product"),
+          // ]);
+          const API = process.env.REACT_APP_API_URL;
+
           const [catRes, prodRes] = await Promise.all([
-            axios.get("http://127.0.0.1:8000/api/category"),
-            axios.get("http://127.0.0.1:8000/api/product"),
+            axios.get(`${API}/category`),
+            axios.get(`${API}/product`),
           ]);
+
 
           // ✅ Handle Laravel API responses (with or without "data" wrapper)
           const catData = Array.isArray(catRes.data) ? catRes.data : catRes.data.data;
