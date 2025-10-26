@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { fetchProducts, fetchCategories, type Product, type Category } from "@/data/products";
 import { useSearchParams } from "react-router-dom";
 
+
+
 const Categories = () => {
   const { items, addToCart, updateQuantity } = useCart();
   const [searchParams] = useSearchParams();
@@ -25,13 +27,10 @@ const Categories = () => {
       const loadData = async () => {
         setIsLoading(true);
         try {
-          console.log("Fetching categories and products...");
-          // const [catRes, prodRes] = await Promise.all([
-          //   axios.get("http://127.0.0.1:8000/api/category"),
-          //   axios.get("http://127.0.0.1:8000/api/product"),
-          // ]);
+          console.log("Using API URL:");
+          console.log("Fetching categories and Gaurav products...");
+     
           const API = process.env.REACT_APP_API_URL;
-
           const [catRes, prodRes] = await Promise.all([
             axios.get(`${API}/category`),
             axios.get(`${API}/product`),
