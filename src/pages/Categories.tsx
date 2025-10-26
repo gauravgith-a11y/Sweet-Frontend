@@ -30,7 +30,7 @@ const Categories = () => {
           console.log("Using API URL:");
           console.log("Fetching categories and Gaurav products...");
      
-          const API = process.env.REACT_APP_API_URL;
+          const API = import.meta.env.VITE_API_URL;
           const [catRes, prodRes] = await Promise.all([
             axios.get(`${API}/category`),
             axios.get(`${API}/product`),
