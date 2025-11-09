@@ -29,10 +29,10 @@ const Categories = () => {
         setIsLoading(true);
         try {
         
-          console.log(123)
+         
           const [catRes, prodRes] = await Promise.all([
-            axios.get("https://sweetshopbackend.infinityfreeapp.com/api/category"),
-            axios.get("https://sweetshopbackend.infinityfreeapp.com/api/product"),
+            axios.get("/api/proxy/api/category"),
+            axios.get("/api/proxy/api/product"),
           ]);
 
 
