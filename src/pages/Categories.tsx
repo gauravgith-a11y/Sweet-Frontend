@@ -36,6 +36,9 @@ const Categories = () => {
           api.get("/product"),
         ]);
 
+      console.log("✅ Categories response:", catRes.data);
+      console.log("✅ Products response:", prodRes.data);
+
         const catData = Array.isArray(catRes.data)
           ? catRes.data
           : catRes.data.data;
