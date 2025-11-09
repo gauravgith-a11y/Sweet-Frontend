@@ -20,6 +20,9 @@ const Categories = () => {
   const [isLoading, setIsLoading] = useState(true);
   const searchQuery = searchParams.get("search") || "";
 
+
+  const API = import.meta.env.VITE_API_URL;
+  console.log(`API URL from env: ${API}`);
  
 
   useEffect(() => {
