@@ -26,38 +26,28 @@ const Categories = () => {
  
 
   useEffect(() => {
-      const loadData = async () => {
-        setIsLoading(true);
-        try {
-        
-         
-         const [catRes, prodRes] = await Promise.all([
-          api.get("/category"),
-          api.get("/product"),
-        ]);
+  const loadData = async () => {
+    setIsLoading(true);
+    try {
+      const API_PROXY = "https://sweetshopbackend.infinityfreeapp.com/api-proxy.php";
 
-      console.log("✅ Categories response:", catRes.data);
-      console.log("✅ Products response:", prodRes.data);
+      const [catRes, prodRes] = await Promise.all([
+        axios.get(`${API_PROXY}?endpoint=category`),
+        axios.get(`${API_PROXY}?endpoint=product`),
+      ]);
 
-        const catData = Array.isArray(catRes.data)
-          ? catRes.data
-          : catRes.data.data;
+      setCategories(catRes.data || []);
+      setProducts(prodRes.data || []);
+    } catch (err) {
+      console.error("Error fetching:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-        const prodData = Array.isArray(prodRes.data)
-          ? prodRes.data
-          : prodRes.data.products;
+  loadData();
+}, []);
 
-        setCategories(catData || []);
-        setProducts(prodData || []);
-        } catch (err) {
-          console.error("Error fetching:", err);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      loadData();
-    }, []);
 
 
 
