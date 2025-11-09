@@ -11,7 +11,6 @@ import { fetchProducts, fetchCategories, type Product, type Category } from "@/d
 import { useSearchParams } from "react-router-dom";
 
 
-
 const Categories = () => {
   const { items, addToCart, updateQuantity } = useCart();
   const [searchParams] = useSearchParams();
@@ -29,11 +28,16 @@ const Categories = () => {
         try {
           console.log("Using API URL:");
           console.log("Fetching categories and Gaurav products...");
+
+          
      
-          const API = import.meta.env.VITE_API_URL;
+          // const API = import.meta.env.VITE_API_URL;
+
+          // console.log(`API URL: ${API}`);
+          console.log(123)
           const [catRes, prodRes] = await Promise.all([
-            axios.get(`${API}/category`),
-            axios.get(`${API}/product`),
+            axios.get("http://127.0.0.1:8000/api/category"),
+            axios.get("http://127.0.0.1:8000/api/product"),
           ]);
 
 
@@ -116,7 +120,7 @@ const Categories = () => {
                 className={`group flex flex-col items-center gap-3 transition-smooth ${selectedCategory === category.id ? "scale-110" : ""}`}
               >
                 <div className={`w-24 h-24 rounded-full overflow-hidden border-4 transition-smooth ${selectedCategory === category.id ? "border-primary shadow-warm" : "border-transparent group-hover:border-primary/50"}`}>
-                  <img src={`http://127.0.0.1:8000/storage/categories/${category.image}`} alt={category.name} className="w-full h-full object-cover" />
+                  {/* <img src={`http://127.0.0.1:8000/storage/categories/${category.image}`} alt={category.name} className="w-full h-full object-cover" /> */}
                 </div>
                 <span className="font-semibold">{category.name}</span>
               </button>
