@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { fetchProducts, fetchCategories, type Product, type Category } from "@/data/products";
 import { useSearchParams } from "react-router-dom";
+import api from "@/api";
 
 
 const Categories = () => {
@@ -30,18 +31,21 @@ const Categories = () => {
         try {
         
          
-          const [catRes, prodRes] = await Promise.all([
-            axios.get("/api/proxy/api/category"),
-            axios.get("/api/proxy/api/product"),
-          ]);
+         const [catRes, prodRes] = await Promise.all([
+          api.get("/category"),
+          api.get("/product"),
+        ]);
 
+        const catData = Array.isArray(catRes.data)
+          ? catRes.data
+          : catRes.data.data;
 
-          // ✅ Handle Laravel API responses (with or without "data" wrapper)
-          const catData = Array.isArray(catRes.data) ? catRes.data : catRes.data.data;
-          const prodData = Array.isArray(prodRes.data) ? prodRes.data : prodRes.data.products;
+        const prodData = Array.isArray(prodRes.data)
+          ? prodRes.data
+          : prodRes.data.products;
 
-          setCategories(catData || []);
-          setProducts(prodData || []);
+        setCategories(catData || []);
+        setProducts(prodData || []);
         } catch (err) {
           console.error("Error fetching:", err);
         } finally {
