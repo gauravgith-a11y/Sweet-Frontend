@@ -22,25 +22,17 @@ const Categories = () => {
 
 
   const API = import.meta.env.VITE_API_URL;
-  console.log(`API URL from env: ${API}`);
  
 
   useEffect(() => {
       const loadData = async () => {
         setIsLoading(true);
         try {
-          console.log("Using API URL:");
-          console.log("Fetching categories and Gaurav products...");
-
-          
-     
-          // const API = import.meta.env.VITE_API_URL;
-
-          // console.log(`API URL: ${API}`);
+        
           console.log(123)
           const [catRes, prodRes] = await Promise.all([
-            axios.get("http://127.0.0.1:8000/api/category"),
-            axios.get("http://127.0.0.1:8000/api/product"),
+            axios.get(`${API}/category`),
+            axios.get(`${API}/product`),
           ]);
 
 
