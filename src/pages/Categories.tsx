@@ -31,8 +31,8 @@ const Categories = () => {
         
           console.log(123)
           const [catRes, prodRes] = await Promise.all([
-            axios.get(`${API}/category`),
-            axios.get(`${API}/product`),
+            axios.get("https://sweetshopbackend.infinityfreeapp.com/api/category"),
+            axios.get("https://sweetshopbackend.infinityfreeapp.com/api/product"),
           ]);
 
 
