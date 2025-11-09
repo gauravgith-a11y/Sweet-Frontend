@@ -1,24 +1,22 @@
-import axios from "axios";
+import fetch from "node-fetch";
 
 export default async function handler(req, res) {
-  const targetURL = "https://sweetshopbackend.infinityfreeapp.com" + req.url.replace("/api/proxy", "");
-  
+  const target = "https://sweetshopbackend.infinityfreeapp.com" + req.url.replace("/api/proxy", "");
+
   try {
-    const response = await axios({
-      url: targetURL,
+    const response = await fetch(target, {
       method: req.method,
       headers: {
-        "Content-Type": req.headers["content-type"] || "application/json",
+        "Content-Type": "application/json",
+        ...req.headers,
       },
-      data: req.body,
+      body: ["GET", "HEAD"].includes(req.method) ? undefined : req.body,
     });
 
-    res.status(response.status).json(response.data);
+    const data = await response.text();
+    res.status(response.status).send(data);
   } catch (error) {
-    console.error("Proxy error:", error.response?.status, error.response?.data);
-    res.status(error.response?.status || 500).json({
-      message: "Proxy request failed",
-      error: error.response?.data || error.message,
-    });
+    console.error("Proxy error:", error);
+    res.status(500).json({ error: "Proxy failed" });
   }
 }
