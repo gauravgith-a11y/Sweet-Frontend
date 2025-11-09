@@ -1,20 +1,24 @@
+import axios from "axios";
+
 export default async function handler(req, res) {
-    try {
-        const apiUrl = 'https://sweetshopbackend.infinityfreeapp.com' + req.url;
+  const targetURL = "https://sweetshopbackend.infinityfreeapp.com" + req.url.replace("/api/proxy", "");
+  
+  try {
+    const response = await axios({
+      url: targetURL,
+      method: req.method,
+      headers: {
+        "Content-Type": req.headers["content-type"] || "application/json",
+      },
+      data: req.body,
+    });
 
-        const response = await fetch(apiUrl, {
-            method: req.method,
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: req.headers.authorization || '',
-            },
-            body: req.method !== 'GET' ? JSON.stringify(req.body) : undefined,
-        });
-
-        const text = await response.text();
-        res.status(response.status).send(text);
-    } catch (err) {
-        console.error('Proxy error:', err);
-        res.status(500).json({ error: 'Proxy failed', details: err.message });
-    }
+    res.status(response.status).json(response.data);
+  } catch (error) {
+    console.error("Proxy error:", error.response?.status, error.response?.data);
+    res.status(error.response?.status || 500).json({
+      message: "Proxy request failed",
+      error: error.response?.data || error.message,
+    });
+  }
 }
