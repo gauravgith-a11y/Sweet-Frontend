@@ -1,11 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL:
-    import.meta.env.MODE === "development"
-      ? "https://sweetshopbackend.infinityfreeapp.com/api" // for local testing
-      : "/api/proxy/api", // ✅ for Vercel proxy in production
-  withCredentials: true,
+  baseURL: "https://sweetshopbackend.infinityfreeapp.com/api", // ✅ direct Laravel API
+  withCredentials: false, // no cookies needed for now
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
