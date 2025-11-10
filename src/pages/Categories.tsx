@@ -29,12 +29,9 @@ const Categories = () => {
   const loadData = async () => {
     setIsLoading(true);
     try {
-      const API = "https://sweetshopbackend.infinityfreeapp.com/api";
-      const CORS_PROXY = "https://api.allorigins.win/raw?url=";
-
       const [catRes, prodRes] = await Promise.all([
-        axios.get(`${CORS_PROXY}${encodeURIComponent(API + "/category")}`),
-        axios.get(`${CORS_PROXY}${encodeURIComponent(API + "/product")}`),
+        api.get("/category"),
+        api.get("/product"),
       ]);
 
       const catData = Array.isArray(catRes.data) ? catRes.data : catRes.data.data;
@@ -51,6 +48,7 @@ const Categories = () => {
 
   loadData();
 }, []);
+
 
 
 
