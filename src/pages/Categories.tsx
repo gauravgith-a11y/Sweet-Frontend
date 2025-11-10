@@ -29,15 +29,19 @@ const Categories = () => {
   const loadData = async () => {
     setIsLoading(true);
     try {
-      const API_PROXY = "https://sweetshopbackend.infinityfreeapp.com/api-proxy.php";
+      const API = "https://sweetshopbackend.infinityfreeapp.com/api";
+      const CORS_PROXY = "https://api.allorigins.win/raw?url=";
 
       const [catRes, prodRes] = await Promise.all([
-        axios.get(`${API_PROXY}?endpoint=category`),
-        axios.get(`${API_PROXY}?endpoint=product`),
+        axios.get(`${CORS_PROXY}${encodeURIComponent(API + "/category")}`),
+        axios.get(`${CORS_PROXY}${encodeURIComponent(API + "/product")}`),
       ]);
 
-      setCategories(catRes.data || []);
-      setProducts(prodRes.data || []);
+      const catData = Array.isArray(catRes.data) ? catRes.data : catRes.data.data;
+      const prodData = Array.isArray(prodRes.data) ? prodRes.data : prodRes.data.products;
+
+      setCategories(catData || []);
+      setProducts(prodData || []);
     } catch (err) {
       console.error("Error fetching:", err);
     } finally {
@@ -47,6 +51,7 @@ const Categories = () => {
 
   loadData();
 }, []);
+
 
 
 
